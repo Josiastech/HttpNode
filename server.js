@@ -1,8 +1,16 @@
 const http = require('http');
+const url = require('url');
 
 const server = http.createServer();
+
 server.on('request', (request, response) => {
-    console.log('this is an incoming request');
+    const parsedUrl = url.parse(request.url, true);
+    
+    if(request.method === 'GET' && parsedUrl.pathname === '/metadata'){
+        const {id} = parsedUrl.query;
+        const metadata = services.fetchImageMetadata(id);
+        console.log(request.headers);
+    }
 });
 
 
